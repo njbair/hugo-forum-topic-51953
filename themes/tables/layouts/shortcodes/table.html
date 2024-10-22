@@ -1,0 +1,27 @@
+{{- $hasHeader := .Get 1 | default false }}
+{{- with .Page.Resources.GetMatch (.Get 0) }}
+  {{- with . | unmarshal }}
+    <table>
+      {{ $rows := . }}
+      {{- if $hasHeader }}
+        {{ $rows = after 1 . }}
+        <thead>
+          <tr>
+            {{- range $colIndex, $value := index . 0 }}
+              <th>{{ $value }}</th>
+            {{- end }}
+          </tr>
+        </thead>
+      {{- end }}
+      <tbody>
+        {{- range $rowIndex, $row := $rows }}
+          <tr>
+            {{- range $colIndex, $value := $row }}
+              <td>{{ $value }}</td>
+            {{- end }}
+          </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  {{- end }}
+{{- end }}
